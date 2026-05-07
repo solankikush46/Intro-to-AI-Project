@@ -6,9 +6,24 @@ sns.set_theme(style="whitegrid")
 
 # Input F1-Scores
 results = {
-    'Random Forest': {'Music': 0.76, 'Coffee': 0.72, 'Perfume': 0.74, 'Overall': 0.74},
-    'Naïve Bayes': {'Music': 0.68, 'Coffee': 0.65, 'Perfume': 0.62, 'Overall': 0.65},
-    '1D-CNN': {'Music': 0.82, 'Coffee': 0.79, 'Perfume': 0.81, 'Overall': 0.81}
+    'Random Forest': {
+        'Music': 0.83, 
+        'Coffee': 0.72, 
+        'Perfume': 0.72, 
+        'Overall': 0.76
+    },
+    'Naïve Bayes': {
+        'Music': 0.40, 
+        'Coffee': 0.50, 
+        'Perfume': 0.46, 
+        'Overall': 0.46
+    },
+    'Hybrid Fusion CNN': {
+        'Music': 0.75, 
+        'Coffee': 0.43, 
+        'Perfume': 0.62, 
+        'Overall': 0.62
+    }
 }
 
 # Prepare data for plotting
@@ -25,7 +40,7 @@ fig, ax = plt.subplots(figsize=(10, 6))
 
 rects1 = ax.bar(x - width, data[0], width, label='Random Forest', color='#1f77b4')
 rects2 = ax.bar(x, data[1], width, label='Naïve Bayes', color='#ff7f0e')
-rects3 = ax.bar(x + width, data[2], width, label='1D-CNN', color='#2ca02c')
+rects3 = ax.bar(x + width, data[2], width, label='Hybrid Fusion CNN', color='#2ca02c')
 
 # Labels and title
 ax.set_ylabel('F1-Score')
