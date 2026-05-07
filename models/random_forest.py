@@ -10,7 +10,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 data_path = os.path.join('../DataSet/eeg_dataset', 'balanced_data-epo.fif')
 
 if not os.path.exists(data_path):
-    print(f"Error: {data_path} not found. Please run your Phase 1 script first!")
+    print(f"Error: {data_path} not found. Please run Phase 1 script first!")
 else:
     epochs = mne.read_epochs(data_path, preload=True)
     
@@ -20,7 +20,7 @@ else:
         epochs.get_data(), sfreq=256, fmin=0.5, fmax=40, verbose=False
     )
     
-    # Flatten the features: (samples, channels, frequencies) -> (samples, features)
+    # Flatten the features
     X = psds.reshape(len(psds), -1) 
     y = epochs.events[:, -1]
 

@@ -39,7 +39,7 @@ for eeg_path in csv_files:
         epochs = mne.make_fixed_length_epochs(raw, duration=2.0, overlap=1.0, preload=True, verbose=False)
         epochs.drop_bad() 
         
-        # --- CHRONOLOGICAL SLICING LOGIC ---
+        # Chronological slicing logic 
         total_epochs = len(epochs)
         third = total_epochs // 3
         
@@ -65,7 +65,7 @@ for eeg_path in csv_files:
             p_idx = nback_df['PerfumeSession'].dropna().index[0] if 'PerfumeSession' in nback_df.columns and nback_df['PerfumeSession'].count() > 0 else 9999
             
             if c_idx == 9999 and p_idx == 9999:
-                print(f"⚠️ {subject_id}: No Coffee or Perfume data found. Skipping.")
+                print(f" {subject_id}: No Coffee or Perfume data found")
                 continue
             
             # Slice the middle and final thirds
@@ -116,7 +116,7 @@ if music_list and coffee_list and perfume_list:
     
     # Calculate how many Music samples to keep
     target_n = int((len(c_data) + len(p_data)) / 2)
-    print(f"⚖️ Balancing: Reducing Music from {len(m_data)} to {target_n} samples...")
+    print(f"Balancing: Reducing Music from {len(m_data)} to {target_n} samples...")
     
     np.random.seed(42)
     keep_idx = np.random.choice(len(m_data), target_n, replace=False)
@@ -129,10 +129,10 @@ if music_list and coffee_list and perfume_list:
     print("Merging all data into final dataset...")
     final_data = np.concatenate([m_data_balanced, c_data, p_data], axis=0)
     
-    # Rebuild the events array cleanly to prevent any overlap issues
+    # Rebuild the events array cleanly 
     total_samples = len(final_data)
     final_events = np.zeros((total_samples, 3), dtype=int)
-    final_events[:, 0] = np.arange(total_samples) # Clean, sequential sample IDs
+    final_events[:, 0] = np.arange(total_samples) 
     final_events[:, 2] = np.concatenate([
         m_events_balanced[:, 2], 
         c_events[:, 2], 

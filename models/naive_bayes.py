@@ -9,16 +9,16 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import StratifiedKFold, cross_val_predict
 from sklearn.metrics import classification_report, confusion_matrix
 import warnings
-warnings.filterwarnings('ignore') # Hides MNE deprecation warnings
+warnings.filterwarnings('ignore')
 
-# 1. LOAD BALANCED DATA
+# Load balanced dataset
 print("Loading balanced dataset...")
 epochs = mne.read_epochs('../DataSet/eeg_dataset/balanced_data-epo.fif', preload=True, verbose=False)
 
 y_labels = epochs.events[:, -1] 
 class_names = ['Music', 'Coffee', 'Perfume']
 
-# 2. FEATURE ENGINEERING: Power Spectral Density (PSD)
+# 2. Feature engineering: Power Spectral Density (PSD)
 print("\nExtracting PSD features for Naïve Bayes...")
 psds, freqs = mne.time_frequency.psd_array_welch(
     epochs.get_data(), sfreq=256, fmin=0.5, fmax=40.0, n_per_seg=256, verbose=False
@@ -27,15 +27,15 @@ psds, freqs = mne.time_frequency.psd_array_welch(
 # Flatten the features
 X_features = psds.reshape(len(psds), -1) 
 
-# --- IMPROVEMENT 1: LOG TRANSFORM ---
+# Improvement 1: Log Transform
 # PSD values are heavily skewed. Log10 forces them into a Gaussian/Normal distribution
-X_log = np.log10(X_features + 1e-10) # Added 1e-10 to prevent log(0) errors
+X_log = np.log10(X_features + 1e-10) 
 print(f"Feature extraction complete! Feature matrix shape: {X_log.shape}")
 
-# 3. MACHINE LEARNING PIPELINE
+# ML Pipeline
 cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
-# --- IMPROVEMENT 2: SCALING & PCA ---
+# Improvement 2: Scaling & PCA 
 # Standardize the data, then use PCA to ensure features are perfectly independent.
 # n_components=0.95 means PCA will keep 95% of the data's variance while dropping noise.
 nb_pipeline = Pipeline([
@@ -50,7 +50,7 @@ nb_predictions = cross_val_predict(nb_pipeline, X_log, y_labels, cv=cv, n_jobs=-
 print("\nClassification Report:")
 print(classification_report(y_labels, nb_predictions, target_names=class_names))
 
-# 4. PLOT CONFUSION MATRIX
+# Plot confusion matrix
 cm = confusion_matrix(y_labels, nb_predictions)
 plt.figure(figsize=(6, 4))
 sns.heatmap(cm, annot=True, fmt='d', cmap='Oranges', 
