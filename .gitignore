@@ -1,0 +1,14 @@
+# Ignore all raw data CSVs
+*.csv
+
+# Ignore MNE data files (the big .fif files)
+*.fif
+
+# Ignore Python cache and local environment settings
+__pycache__/
+.vscode/
+.venv/
+*.pyc
+
+# Ignore the large EDF files if you have them
+*.edf

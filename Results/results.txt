@@ -1,0 +1,25 @@
+--- Evaluating Random Forest ---
+
+Classification Report:
+              precision    recall  f1-score   support
+
+       Music       0.82      0.84      0.83     19485
+      Coffee       0.74      0.71      0.72     19489
+     Perfume       0.71      0.73      0.72     19481
+
+    accuracy                           0.76     58455
+   macro avg       0.76      0.76      0.76     58455
+weighted avg       0.76      0.76      0.76     58455
+
+--- Evaluating Optimized Gaussian Naïve Bayes ---
+
+Classification Report:
+              precision    recall  f1-score   support
+
+       Music       0.60      0.30      0.40     19485
+      Coffee       0.42      0.60      0.50     19489
+     Perfume       0.44      0.47      0.46     19481
+
+    accuracy                           0.46     58455
+   macro avg       0.49      0.46      0.45     58455
+weighted avg       0.49      0.46      0.45     58455
